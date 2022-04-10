@@ -48,9 +48,6 @@ function getMoviesByPage(page) {
 }
 
 function renderPaginator(amount) {
-
-  if (amount === 0) return alert("還沒有收藏任何電影，快去收藏吧！");
-
   const totalPages = Math.ceil(amount / MOVIES_PER_PAGE);
   if (currentPage > totalPages) {
     currentPage = totalPages
@@ -106,6 +103,14 @@ function removeFromFavorite(id) {
   localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
   renderMoviesData(getMoviesByPage(currentPage));
   renderPaginator(currentMoviesData().length);
+  if (favoriteMovies.length === 0) {
+    navBarIndex = "Home";
+    renderPaginator(currentMoviesData().length);
+    renderMoviesData(getMoviesByPage(currentPage));
+    return alert("還沒有收藏任何電影，快去收藏吧！");
+  }
+
+
 }
 
 function renderMoviesData(data) {
@@ -232,27 +237,24 @@ navBar.addEventListener("click", function onNavBarClicked(event) {
     case "Home":
       navBarIndex = "Home";
       target.classList.add("active");
-      renderPaginator(movies.length);
+      renderPaginator(currentMoviesData().length);
       renderMoviesData(getMoviesByPage(currentPage));
       break;
 
     case "Movie List":
       navBarIndex = "Home";
-      renderPaginator(movies.length);
+      renderPaginator(currentMoviesData().length);
       renderMoviesData(getMoviesByPage(currentPage));
       break;
 
     case "Favorite":
-      if (favoriteMovies.length === 0) {
-        navBarIndex = "Home";
-        renderPaginator(movies.length);
-        renderMoviesData(getMoviesByPage(currentPage));
+      if (currentMoviesData().length === 0) {
         alert("還沒有收藏任何電影，快去收藏吧！");
         return;
       }
       navBarIndex = "Favorite";
       target.classList.add("active");
-      renderPaginator(favoriteMovies.length);
+      renderPaginator(currentMoviesData().length);
       renderMoviesData(getMoviesByPage(currentPage));
       break;
   }
