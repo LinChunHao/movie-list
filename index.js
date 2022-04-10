@@ -48,6 +48,9 @@ function getMoviesByPage(page) {
 }
 
 function renderPaginator(amount) {
+
+  if (amount === 0) return alert("還沒有收藏任何電影，快去收藏吧！");
+
   const totalPages = Math.ceil(amount / MOVIES_PER_PAGE);
   if (currentPage > totalPages) {
     currentPage = totalPages
@@ -103,14 +106,6 @@ function removeFromFavorite(id) {
   localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
   renderMoviesData(getMoviesByPage(currentPage));
   renderPaginator(currentMoviesData().length);
-  if (favoriteMovies.length === 0) {
-    navBarIndex = "Home";
-    renderPaginator(currentMoviesData().length);
-    renderMoviesData(getMoviesByPage(currentPage));
-    return alert("還沒有收藏任何電影，快去收藏吧！");
-  }
-
-
 }
 
 function renderMoviesData(data) {
@@ -248,7 +243,10 @@ navBar.addEventListener("click", function onNavBarClicked(event) {
       break;
 
     case "Favorite":
-      if (currentMoviesData().length === 0) {
+      if (favoriteMovies.length === 0) {
+        navBarIndex = "Home";
+        renderPaginator(currentMoviesData().length);
+        renderMoviesData(getMoviesByPage(currentPage));
         alert("還沒有收藏任何電影，快去收藏吧！");
         return;
       }
