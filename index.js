@@ -49,8 +49,8 @@ function getMoviesByPage(page) {
 
 function renderPaginator(amount) {
 
-  if (amount === 0) return alert("還沒有收藏任何電影，快去收藏吧！");  
-  
+  if (amount === 0) return alert("還沒有收藏任何電影，快去收藏吧！");
+
   const totalPages = Math.ceil(amount / MOVIES_PER_PAGE);
   if (currentPage > totalPages) {
     currentPage = totalPages
@@ -64,7 +64,7 @@ function renderPaginator(amount) {
     `;
   }
   paginator.innerHTML = rawHTML;
-  
+
   //每當產生頁碼時，標示正在那一頁中，預設為第一頁
   paginator.children[currentPage - 1].firstElementChild.classList.add(
     "bg-primary",
@@ -245,6 +245,8 @@ navBar.addEventListener("click", function onNavBarClicked(event) {
     case "Favorite":
       if (favoriteMovies.length === 0) {
         alert("還沒有收藏任何電影，快去收藏吧！");
+        renderPaginator(movies.length);
+        renderMoviesData(getMoviesByPage(currentPage));
         return;
       }
       navBarIndex = "Favorite";
