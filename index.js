@@ -244,9 +244,10 @@ navBar.addEventListener("click", function onNavBarClicked(event) {
 
     case "Favorite":
       if (favoriteMovies.length === 0) {
-        alert("還沒有收藏任何電影，快去收藏吧！");
+        navBarIndex = "Home";
         renderPaginator(movies.length);
         renderMoviesData(getMoviesByPage(currentPage));
+        alert("還沒有收藏任何電影，快去收藏吧！");
         return;
       }
       navBarIndex = "Favorite";
